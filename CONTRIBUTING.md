@@ -10,8 +10,8 @@ in branches, commits, PRs and issues.
 ## 1. One-time setup
 
 ```bash
-git clone https://github.com/<your-org>/lecturelens-ai.git
-cd lecturelens-ai
+git clone https://github.com/HoneyWadwa/ClariNote.git
+cd ClariNote
 
 python3 -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r backend/requirements.txt

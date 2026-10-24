@@ -342,7 +342,7 @@ Statuses used: `Tested — passing` · `Implemented — unverified` · `Partiall
 | Sample input/output | Tested — passing | `sample/sample_input.txt`, `sample/sample_output.json`; served through `/api/sample` and demo generation; matches the spec (5 bullets, 8 terms, 5 questions, ≥1 flagged unsupported, completed checklist) | Final spec cross-check before submission (P2-02) |
 | README and project documentation | Partially implemented | This README + `docs/hallucination-prevention.md` + `CONTRIBUTING.md`; all commands and counts re-verified 2026-10-25 | Team review of accuracy; screenshots if useful (P2-03); final doc pass (P2-04) |
 | CI pipeline (GitHub Actions) | Not implemented | No `.github/workflows/` exists | Add CI running pytest + build + smoke + DOM tests (P1-08) |
-| GitHub readiness and secret protection | Partially implemented | `.gitignore` covers `.env`, `.venv/`, `node_modules/`, `dist/`; `.env.example` present with empty values; secret scan of working tree found no matches; **no `.git` repository exists yet** | Initialize repo + first push (P0-11); re-run tracked-file secret scan before merging (P2-04) |
+| GitHub readiness and secret protection | Tested — passing | Repository published: **github.com/HoneyWadwa/ClariNote**, HEAD `e0b77f7`, 61 tracked files (2026-10-25). `.gitignore` covers `.env`, `.venv/`, `node_modules/`, `dist/`; `.env.example` values empty; audit of tracked files found no forbidden files and no key patterns | Exercise the branch → PR → review flow on real tasks (P1-08 CI); final tracked-file audit at P2-04 |
 | Live OpenAI end-to-end run | Blocked | `/api/health` reports `live_ai_configured: false` | Set a real key in a local `.env` and run P0-06; never commit the key |
 
 ---
@@ -366,8 +366,8 @@ are recorded as complete with their evidence. Statuses are mirrored in the
 | P0-07 | Test upload errors, empty input, unsupported content, API failures | Person 3 | P0-01 | Each case returns the documented status/code; UI shows a readable message | - [x] **Done** for covered cases — unit tests for empty/oversized/malformed/unsupported inputs, live probe returned `400 unsupported_file_type`, interaction test covers API failure + retry + input preservation. Extend with teammates' own files (P1-02) |
 | P0-08 | Fix any reproducible bugs found | Person 1 → route to owner | P0-05, P0-07 | Each bug fixed with a regression check | - [x] **No reproducible bugs found** in the 2026-10-25 run; one cosmetic issue logged as P1-07 |
 | P0-09 | Verify claims/quotations are displayed honestly and unsupported content is flagged | Person 1 | P0-05 | Demo banner, “semantic support not verified” wording, `UNSUPPORTED` warnings and needs-review reasons all visible | - [x] **Done** — all four observed in the browser (§7) |
-| P0-10 | Check that no API keys, `.env` files, credentials or personal information are committed | Person 1 | P0-11 | `git ls-files` contains no secrets; scan recorded | - [x] **Done for the working tree** (no `.env`, no key patterns found). Re-run on tracked files after the first commit (P2-04) |
-| P0-11 | Initialize the GitHub repository and push the first commit | Person 1 | P0-10 | Repo contains source only; `.env.example` present; README renders on GitHub | - [ ] Not started |
+| P0-10 | Check that no API keys, `.env` files, credentials or personal information are committed | Person 1 | P0-11 | `git ls-files` contains no secrets; scan recorded | - [x] **Done** — working tree *and* the 61 tracked files audited after the first push: no `.env`, no `.venv`/`node_modules`/`dist`, no key patterns (2026-10-25) |
+| P0-11 | Initialize the GitHub repository and push the first commit | Person 1 | P0-10 | Repo contains source only; `.env.example` present; README renders on GitHub | - [x] **Done** — `HoneyWadwa/ClariNote` published 2026-10-25 (`bb79326..e0b77f7`), 61 tracked files, README renders |
 
 ### P1 — Improve reliability and usability
 
@@ -456,8 +456,9 @@ Detailed step-by-step Git procedures, conflict walkthroughs and the PR checklist
 
 ### 1. Create the shared repository
 
-Create an empty repository on GitHub (no README, no `.gitignore` — ours exist), e.g.
-`<your-org>/lecturelens-ai`.
+**The repository already exists:** <https://github.com/HoneyWadwa/ClariNote> (created and pushed
+2026-10-25 — task P0-11). The steps below are kept as the reference procedure for a fresh copy or
+a fork: create an empty repository on GitHub (no README, no `.gitignore` — ours exist).
 
 ### 2. Upload the project (first time only) — source only
 
@@ -469,7 +470,7 @@ git add .gitignore .env.example README.md CONTRIBUTING.md pytest.ini \
 git status                      # review EVERY file below before committing
 git ls-files | grep -E '(^|/)(\.env$|\.venv/|node_modules/|dist/|__pycache__/)'   # must print NOTHING
 git commit -m "Initial commit: LectureLens AI"
-git remote add origin https://github.com/<your-org>/lecturelens-ai.git
+git remote add origin https://github.com/HoneyWadwa/ClariNote.git
 git push -u origin main
 ```
 
@@ -499,8 +500,8 @@ cp .env.example .env            # then edit .env with your own key
 ### 5. Clone and set up
 
 ```bash
-git clone https://github.com/<your-org>/lecturelens-ai.git
-cd lecturelens-ai
+git clone https://github.com/HoneyWadwa/ClariNote.git
+cd ClariNote
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r backend/requirements.txt
 npm ci --prefix frontend
@@ -579,8 +580,8 @@ Update this table directly in GitHub (one row per task from §9). Status values:
 | P0-07 | Upload/empty/unsupported/API-failure cases | Person 3 | P0 | Done | — | Unit tests + live `400 unsupported_file_type` + interaction test |
 | P0-08 | Fix reproducible bugs | Person 1 | P0 | Done | — | None found; P1-07 logged as cosmetic |
 | P0-09 | Honest display + unsupported flagging | Person 1 | P0 | Done | — | Browser observations, §7 |
-| P0-10 | No secrets committed | Person 1 | P0 | Done | — | Tree scan: no matches; re-check tracked files post-push |
-| P0-11 | Create GitHub repo, first push | Person 1 | P0 | Not started | — | — |
+| P0-10 | No secrets committed | Person 1 | P0 | Done | — | Tree + 61 tracked files scanned after push: no matches |
+| P0-11 | Create GitHub repo, first push | Person 1 | P0 | Done | [HoneyWadwa/ClariNote](https://github.com/HoneyWadwa/ClariNote) | Push `bb79326..e0b77f7`, 2026-10-25 |
 | P1-01 | Responsive + accessibility pass | Person 2 | P1 | Not started | — | 390 px spot check passed |
 | P1-02 | Real-world PDF/DOCX extraction | Person 3 | P1 | Not started | — | — |
 | P1-03 | Manual UX review of evidence/flashcards/practice/checklist | Person 2 | P1 | Not started | — | — |
@@ -610,9 +611,9 @@ A task is only `Done` when **all** of the following hold:
 5. **No regressions** — the change integrates without breaking existing features; the §7 command
    set still passes.
 
-**The project is not submission-ready** until every P0 task is `Done` — in particular P0-06
-(live AI run) must either pass or be explicitly documented as unavailable with its blocker, and
-P0-11 (repository published) must be complete.
+**The project is not submission-ready** until every P0 task is `Done`. As of 2026-10-25 the
+remaining critical task is **P0-06** (live AI run), which must either pass or be explicitly
+documented as unavailable with its blocker. P0-11 (repository published) is complete.
 
 ---
 
