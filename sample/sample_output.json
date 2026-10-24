@@ -1,0 +1,327 @@
+{
+  "title": "LectureLens AI - fixed sample output",
+  "note": "This is a hand-checked sample, NOT output produced live by the AI. It is bundled so the interface can be demonstrated without an OPENAI_API_KEY. Every quotation below appears verbatim in sample/sample_input.txt, and the verification report shown by the app is computed at runtime from these items.",
+  "source_file": "sample/sample_input.txt",
+  "materials": {
+    "summary": [
+      {
+        "point": "Process scheduling is the operating system function that chooses a process from the ready queue for the CPU to execute.",
+        "evidence": [
+          {
+            "quote": "Process scheduling is an operating system function that selects a process from the ready queue for execution by the CPU.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "point": "Three ordering policies are named: FCFS runs processes in the order they arrive, SJF selects the process with the shortest CPU burst, and Round Robin gives each process a fixed time quantum and cycles through the ready queue.",
+        "evidence": [
+          {
+            "quote": "First-Come, First-Served (FCFS) schedules processes in the order they arrive.",
+            "location": null
+          },
+          {
+            "quote": "Shortest Job First (SJF) selects the process with the shortest CPU burst.",
+            "location": null
+          },
+          {
+            "quote": "Round Robin assigns each process a fixed time quantum and cycles through the ready queue.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "point": "A context switch happens when the CPU changes from executing one process or thread to another.",
+        "evidence": [
+          {
+            "quote": "A context switch occurs when the CPU changes from executing one process or thread to another.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "point": "Scheduling algorithms can be compared on waiting time, turnaround time, and response time.",
+        "evidence": [
+          {
+            "quote": "Scheduling algorithms can differ in waiting time, turnaround time, and response time.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "point": "Round Robin gives the lowest average waiting time of the three scheduling algorithms.",
+        "evidence": [
+          {
+            "quote": "Scheduling algorithms can differ in waiting time, turnaround time, and response time.",
+            "location": null
+          }
+        ],
+        "grounding": "UNSUPPORTED",
+        "warning": "The notes only say that algorithms can differ in waiting time; they never rank the algorithms, so this claim cannot be supported by the source."
+      }
+    ],
+    "glossary": [
+      {
+        "term": "Process scheduling",
+        "definition": "The operating system function that selects a process from the ready queue for execution by the CPU.",
+        "evidence": [
+          {
+            "quote": "Process scheduling is an operating system function that selects a process from the ready queue for execution by the CPU.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "term": "Ready queue",
+        "definition": "The queue from which process scheduling selects the process that the CPU will execute.",
+        "evidence": [
+          {
+            "quote": "Process scheduling is an operating system function that selects a process from the ready queue for execution by the CPU.",
+            "location": null
+          }
+        ],
+        "grounding": "PARTIALLY_SUPPORTED",
+        "warning": "The notes mention the ready queue as the source of processes, but they do not describe what it contains or how it is managed."
+      },
+      {
+        "term": "First-Come, First-Served (FCFS)",
+        "definition": "The scheduling policy that runs processes in the order they arrive.",
+        "evidence": [
+          {
+            "quote": "First-Come, First-Served (FCFS) schedules processes in the order they arrive.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "term": "Shortest Job First (SJF)",
+        "definition": "The scheduling policy that selects the process with the shortest CPU burst.",
+        "evidence": [
+          {
+            "quote": "Shortest Job First (SJF) selects the process with the shortest CPU burst.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "term": "Round Robin",
+        "definition": "The scheduling policy that assigns each process a fixed time quantum and cycles through the ready queue.",
+        "evidence": [
+          {
+            "quote": "Round Robin assigns each process a fixed time quantum and cycles through the ready queue.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "term": "Context switch",
+        "definition": "The change that occurs when the CPU switches from executing one process or thread to another.",
+        "evidence": [
+          {
+            "quote": "A context switch occurs when the CPU changes from executing one process or thread to another.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "term": "Time quantum",
+        "definition": "The fixed amount of time Round Robin gives to each process before it cycles to the next process in the ready queue.",
+        "evidence": [
+          {
+            "quote": "Round Robin assigns each process a fixed time quantum and cycles through the ready queue.",
+            "location": null
+          }
+        ],
+        "grounding": "PARTIALLY_SUPPORTED",
+        "warning": "The notes call the quantum fixed but do not state how long it is or what happens when it expires."
+      },
+      {
+        "term": "Turnaround time",
+        "definition": null,
+        "evidence": [
+          {
+            "quote": "Scheduling algorithms can differ in waiting time, turnaround time, and response time.",
+            "location": null
+          }
+        ],
+        "grounding": "UNSUPPORTED",
+        "warning": "Not supported by source: the notes name turnaround time as a comparison metric but never define it."
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "question_type": "recall",
+        "question": "What operating system function selects a process from the ready queue for execution by the CPU?",
+        "evidence": [
+          {
+            "quote": "Process scheduling is an operating system function that selects a process from the ready queue for execution by the CPU.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "answer": "Process scheduling.",
+        "answer_evidence": [
+          {
+            "quote": "Process scheduling is an operating system function that selects a process from the ready queue for execution by the CPU.",
+            "location": null
+          }
+        ],
+        "answer_grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "number": 2,
+        "question_type": "recall",
+        "question": "How does First-Come, First-Served (FCFS) order the processes it runs?",
+        "evidence": [
+          {
+            "quote": "First-Come, First-Served (FCFS) schedules processes in the order they arrive.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "answer": "It schedules processes in the order they arrive.",
+        "answer_evidence": [
+          {
+            "quote": "First-Come, First-Served (FCFS) schedules processes in the order they arrive.",
+            "location": null
+          }
+        ],
+        "answer_grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "number": 3,
+        "question_type": "conceptual",
+        "question": "How does Shortest Job First (SJF) choose which process runs, and how does that differ from Round Robin?",
+        "evidence": [
+          {
+            "quote": "Shortest Job First (SJF) selects the process with the shortest CPU burst.",
+            "location": null
+          },
+          {
+            "quote": "Round Robin assigns each process a fixed time quantum and cycles through the ready queue.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "answer": "SJF selects the process with the shortest CPU burst, while Round Robin assigns each process a fixed time quantum and cycles through the ready queue.",
+        "answer_evidence": [
+          {
+            "quote": "Shortest Job First (SJF) selects the process with the shortest CPU burst.",
+            "location": null
+          },
+          {
+            "quote": "Round Robin assigns each process a fixed time quantum and cycles through the ready queue.",
+            "location": null
+          }
+        ],
+        "answer_grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "number": 4,
+        "question_type": "conceptual",
+        "question": "What is a context switch?",
+        "evidence": [
+          {
+            "quote": "A context switch occurs when the CPU changes from executing one process or thread to another.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "answer": "A context switch occurs when the CPU changes from executing one process or thread to another.",
+        "answer_evidence": [
+          {
+            "quote": "A context switch occurs when the CPU changes from executing one process or thread to another.",
+            "location": null
+          }
+        ],
+        "answer_grounding": "SUPPORTED",
+        "warning": null
+      },
+      {
+        "number": 5,
+        "question_type": "application",
+        "question": "A designer must compare two scheduling algorithms on the time a job spends waiting before it runs. Which measure named in the notes should be compared, and what do the notes say about that comparison?",
+        "evidence": [
+          {
+            "quote": "Scheduling algorithms can differ in waiting time, turnaround time, and response time.",
+            "location": null
+          }
+        ],
+        "grounding": "SUPPORTED",
+        "answer": "Waiting time should be compared. The notes say that scheduling algorithms can differ in waiting time, turnaround time, and response time.",
+        "answer_evidence": [
+          {
+            "quote": "Scheduling algorithms can differ in waiting time, turnaround time, and response time.",
+            "location": null
+          }
+        ],
+        "answer_grounding": "PARTIALLY_SUPPORTED",
+        "warning": "The notes do not say which algorithm performs better, so no conclusion about the comparison can be drawn from the source."
+      }
+    ]
+  },
+  "checklist_example": [
+    {
+      "item": "Does each summary point have supporting evidence?",
+      "reviewed": true,
+      "note": "All five summary bullets carry quotations located in the sample notes. The fifth bullet's quotation exists but does not support its claim, so it stays UNSUPPORTED and flagged."
+    },
+    {
+      "item": "Is every glossary definition supported by the notes?",
+      "reviewed": true,
+      "note": "Seven of eight terms are supported or partially supported; \"Turnaround time\" is marked \"Not supported by source\"."
+    },
+    {
+      "item": "Can each practice question be answered from the source?",
+      "reviewed": true,
+      "note": "All five questions are answerable from the sample notes and each carries evidence."
+    },
+    {
+      "item": "Is every answer key entry supported by a source passage?",
+      "reviewed": true,
+      "note": "Answers 1-4 are fully supported; answer 5 is PARTIALLY_SUPPORTED and flagged because the notes never rank the algorithms."
+    },
+    {
+      "item": "Are unsupported statements explicitly flagged?",
+      "reviewed": true,
+      "note": "The Round Robin waiting-time claim and the turnaround-time definition are both marked UNSUPPORTED with explanations."
+    },
+    {
+      "item": "Have names, numbers, dates, formulas, and technical terms been preserved accurately?",
+      "reviewed": true,
+      "note": "FCFS, SJF, Round Robin, context switch, time quantum and CPU burst match the source wording."
+    },
+    {
+      "item": "Has the original meaning been preserved?",
+      "reviewed": true,
+      "note": "No generated claim adds information beyond the sample notes."
+    },
+    {
+      "item": "Has a human reviewer checked the generated material?",
+      "reviewed": false,
+      "note": "Pending. This item is intentionally left unchecked: a human must review the material before any academic use."
+    }
+  ]
+}
