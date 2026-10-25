@@ -149,45 +149,62 @@ def _extract_txt(filename: str, data: bytes) -> Dict[str, Any]:
 
 def _extract_pdf(filename: str, data: bytes) -> Dict[str, Any]:
     try:
-        try:
-            import pymupdf as fitz  # PyMuPDF >= 1.24
-        except ImportError:  # pragma: no cover - older PyMuPDF
-            import fitz
+        import pdf_inspector
     except ImportError as exc:  # pragma: no cover - dependency problem
         raise ExtractionError(
-            "PDF support is unavailable: PyMuPDF is not installed.", status=500, code="dependency_missing"
+            "PDF support is unavailable: pdf-inspector is not installed.",
+            status=500,
+            code="dependency_missing",
         ) from exc
 
     try:
-        document = fitz.open(stream=data, filetype="pdf")
+        result = pdf_inspector.extract_pages_markdown_bytes(data)
     except Exception as exc:
         raise ExtractionError(
             "The PDF could not be read. It may be corrupted or password protected.",
             code="malformed_document",
         ) from exc
 
-    try:
-        if getattr(document, "is_encrypted", False):
-            raise ExtractionError(
-                "The PDF is password protected and cannot be read.",
-                code="malformed_document",
-            )
-        segments: List[Dict[str, Any]] = []
-        for index, page in enumerate(document, start=1):
-            page_text = page.get_text("text") or ""
-            if page_text.strip():
-                segments.append(_segment(f"Page {index}", page_text))
-    finally:
-        document.close()
+    pages = list(getattr(result, "pages", []) or [])
+    segments: List[Dict[str, Any]] = []
+    pages_needing_ocr: List[int] = []
+    for page in pages:
+        # pdf-inspector's page selector and PagesExtractionResult use 0-based
+        # indexes; ClariNote evidence locations are human-facing 1-based pages.
+        page_number = int(page.page) + 1
+        page_text = getattr(page, "markdown", None) or ""
+        if page_text.strip():
+            segments.append(_segment(f"Page {page_number}", page_text))
+        if getattr(page, "needs_ocr", False):
+            pages_needing_ocr.append(page_number)
 
     if not segments:
+        if pages_needing_ocr:
+            raise ExtractionError(
+                "No readable text was found in this PDF. It appears to contain scanned pages; "
+                "OCR is not enabled in ClariNote yet.",
+                code="no_text_found",
+            )
         raise ExtractionError(
-            "No extractable text was found in the PDF. It may be a scanned image "
-            "(OCR is not part of this tool).",
+            "No extractable text was found in the PDF.",
             code="no_text_found",
         )
+
+    warnings = [
+        "Some pages may be scanned and were not extracted: "
+        + ", ".join(f"Page {page}" for page in pages_needing_ocr)
+        + ". Local OCR is not enabled in ClariNote yet."
+    ] if pages_needing_ocr else []
     return _build_payload(
-        filename=filename, file_type="pdf", size_bytes=len(data), segments=segments
+        filename=filename,
+        file_type="pdf",
+        size_bytes=len(data),
+        segments=segments,
+        extra={
+            "page_count": len(pages),
+            "pages_needing_ocr": pages_needing_ocr,
+            "warnings": warnings,
+        },
     )
 
 

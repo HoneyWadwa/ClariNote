@@ -246,11 +246,13 @@ export default function App() {
         setExtractInfo(payload)
         setNotes(payload.text)
         const locations = payload.locations ? payload.locations.length : 0
+        const message = locations > 0
+          ? `Extracted ${payload.char_count.toLocaleString()} characters · ${locations} location marker${locations === 1 ? '' : 's'}.`
+          : `Extracted ${payload.char_count.toLocaleString()} characters.`
+        const extractionWarnings = Array.isArray(payload.warnings) ? payload.warnings : []
         pushToast(
-          locations > 0
-            ? `Extracted ${payload.char_count.toLocaleString()} characters · ${locations} location marker${locations === 1 ? '' : 's'}.`
-            : `Extracted ${payload.char_count.toLocaleString()} characters.`,
-          undefined
+          extractionWarnings.length > 0 ? `${message} ${extractionWarnings.join(' ')}` : message,
+          extractionWarnings.length > 0 ? 'warn' : undefined
         )
       } catch (cause) {
         setExtractInfo(null)

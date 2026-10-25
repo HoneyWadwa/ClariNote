@@ -56,7 +56,7 @@ flowchart LR
 
     subgraph Server["Backend - Flask, in-memory only (no DB, no auth)"]
         E["GET /api/health"]
-        F["POST /api/extract<br/>PyMuPDF · python-docx"]
+        F["POST /api/extract<br/>pdf-inspector · python-docx"]
         G["POST /api/generate<br/>OpenAI SDK + strict JSON schema"]
         H["Pydantic validation<br/>exactly 5 questions"]
         I["POST /api/verify<br/>quote lookup + claim-to-evidence check"]
@@ -649,7 +649,7 @@ alone. Rounded corners stay modest (5–7 px), shadows are restrained, and trans
 | `auth_error` (503) | The key is invalid or revoked — create a new one and restart the backend. |
 | `rate_limit` (429) | Wait a moment and retry; reduce how often you press Generate. |
 | `api_unavailable` (502) | No network access to the AI provider from this machine. Demo mode still works. |
-| `no_text_found` on a PDF | The PDF is a scanned image; OCR is out of scope. Paste the text instead. |
+| `no_text_found` on a PDF | The PDF may be scanned or contain no selectable text. Local OCR is not enabled yet; paste the text instead. |
 | `unsupported_file_type` | Only `.txt`, `.pdf`, `.docx` are accepted (configurable in `backend/services/extraction.py`). |
 | File rejected as too large | Raise `MAX_FILE_MB` in `.env` (default 5 MB) and restart the backend. |
 | Preview URL returns 403 | The Vite host allow-list lives in `frontend/vite.config.js` (`allowedHosts`). |
@@ -666,7 +666,7 @@ alone. Rounded corners stay modest (5–7 px), shadows are restrained, and trans
   therefore still marked for human review where any doubt exists.
 - **Live generation has not been exercised yet.** No API key was available during verification, so
   the OpenAI path is covered by mocked tests only (P0-06 open).
-- **No OCR.** Scanned PDFs yield `no_text_found`.
+- **Local OCR is not enabled yet.** `pdf-inspector` reports pages that may need OCR; ClariNote warns when such pages were omitted, and rejects PDFs with no readable text. The package has selective OCR support, but its Windows OCR runtime is still preview, so it needs separate integration and validation.
 - **DOCX tables** are only read when the document contains no paragraphs; table-heavy files should
   be converted to TXT/PDF first.
 - **Live generation quality depends on the model.** Quotes that the model paraphrases are flagged,
